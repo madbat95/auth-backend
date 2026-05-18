@@ -9,6 +9,7 @@ export class UsersController {
   @Post('register')
   register(@Body() dto: RegisterDto) {
     const exists = this.usersService.findByEmail(dto.email);
+
     if (exists) {
       throw new ConflictException('Email already exists');
     }
