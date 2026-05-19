@@ -7,14 +7,14 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  register(@Body() dto: RegisterDto) {
+  async register(@Body() dto: RegisterDto) {
     const exists = this.usersService.findByEmail(dto.email);
 
     if (exists) {
       throw new ConflictException('Email already exists');
     }
 
-    const user = this.usersService.create(dto.email, dto.password);
+    const user = await this.usersService.create(dto.email, dto.password);
     const { password, ...result } = user;
     return result;
   }
